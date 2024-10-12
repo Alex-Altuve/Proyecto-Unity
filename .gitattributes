@@ -1,6 +1,0 @@
-# Trata todos los archivos como texto y normaliza los finales de línea a CRLF para Windows
-* text=auto eol=crlf
-
-# Asegura que los archivos JSON y Unity usen CRLF
-*.json text eol=crlf
-*.unity text eol=crlf
