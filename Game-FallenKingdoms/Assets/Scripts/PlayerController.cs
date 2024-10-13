@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+
+
 public class PlayerController : MonoBehaviour
 {
     public float walkSpeed = 5f;
@@ -10,6 +12,28 @@ public class PlayerController : MonoBehaviour
 
     public bool _isMoving = false;
 
+
+
+    public float CurrentMoventSpeed { 
+        get 
+        {
+            if (CanMove)
+            {
+                if (IsMoving)
+                {
+                    return walkSpeed;
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+            else
+            {
+                return 0;
+            }
+        } 
+    }
     [SerializeField]
     public bool IsMoving
     {
@@ -20,7 +44,7 @@ public class PlayerController : MonoBehaviour
         set
         {
             _isMoving = value;
-            animator.SetBool("IsMoving", value);
+            animator.SetBool(AnimationStrings.isMoving, value);
         }
     }
 
@@ -40,6 +64,13 @@ public class PlayerController : MonoBehaviour
             }
             _isFacingRight = value;
 
+        }
+    }
+    public bool CanMove
+    {
+        get
+        {
+            return animator.GetBool(AnimationStrings.canMove);
         }
     }
 
@@ -66,7 +97,7 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        rb.velocity = new Vector2(moveInput.x * walkSpeed,0);
+        rb.velocity = new Vector2(moveInput.x * CurrentMoventSpeed, 0);
      
     }
 
@@ -88,6 +119,14 @@ public class PlayerController : MonoBehaviour
         else if (moveInput.x < 0 && IsFacingRight)
         {
             IsFacingRight = false;
+        }
+    }
+
+    public void OnAttack(InputAction.CallbackContext context)
+    {
+        if (context.started)
+        {
+            animator.SetTrigger(AnimationStrings.attack);
         }
     }
 }
