@@ -129,4 +129,6 @@ public class PlayerController : MonoBehaviour
             animator.SetTrigger(AnimationStrings.attack);
         }
     }
+
+    
 }
