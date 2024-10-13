@@ -20,27 +20,27 @@ public class PlayerController : MonoBehaviour
         set
         {
             _isMoving = value;
-            animator.SetBool("isMoving", value);
+            animator.SetBool("IsMoving", value);
         }
     }
 
     public bool _isFacingRight = true;
 
-    public bool IsFacingRight 
-    { 
-        get 
-        { 
-            return _isFacingRight;  
-        }   
-        set 
+    public bool IsFacingRight
+    {
+        get
         {
-            if (_isFacingRight != value) 
+            return _isFacingRight;
+        }
+        set
+        {
+            if (_isFacingRight != value)
             {
                 transform.localScale *= new Vector2(-1, 1);
             }
             _isFacingRight = value;
 
-        } 
+        }
     }
 
     Rigidbody2D rb;
@@ -66,8 +66,8 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        rb.velocity = new Vector2(moveInput.x * walkSpeed, moveInput.y);
-
+        rb.velocity = new Vector2(moveInput.x * walkSpeed,0);
+     
     }
 
     public void OnMove(InputAction.CallbackContext context)
