@@ -10,8 +10,8 @@ public class PlayerController : MonoBehaviour
 
     public bool _isMoving = false;
 
-    public float leftLimit = -10f;  // Límite izquierdo
-    public float rightLimit = 10f;  // Límite derecho
+    public float leftLimit = -15f;  // Límite izquierdo
+    public float rightLimit = 15f;  // Límite derecho
 
     public float CurrentMoventSpeed
     {
@@ -64,6 +64,8 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        //Borrar para arreglar el error de los limites 
+        //rb.velocity = new Vector2(moveInput.x * CurrentMoventSpeed, 0);
         // Calcular la nueva posición x
         float newXPosition = rb.position.x + moveInput.x * CurrentMoventSpeed * Time.fixedDeltaTime;
 
