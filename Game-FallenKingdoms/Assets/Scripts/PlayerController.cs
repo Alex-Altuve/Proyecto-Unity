@@ -72,7 +72,7 @@ public class PlayerController : MonoBehaviour
         // Aplicar límites
         newXPosition = Mathf.Clamp(newXPosition, leftLimit, rightLimit);
 
-        // Actualizar la posición del Rigidbody2D
+        // Actualizar la posición del Rigidbody2D con los límites aplicados
         rb.MovePosition(new Vector2(newXPosition, rb.position.y));
     }
 
