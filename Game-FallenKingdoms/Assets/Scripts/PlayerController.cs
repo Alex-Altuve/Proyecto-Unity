@@ -1,9 +1,7 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-
 
 public class PlayerController : MonoBehaviour
 {
@@ -12,35 +10,25 @@ public class PlayerController : MonoBehaviour
 
     public bool _isMoving = false;
 
+    public float leftLimit = -15f;  // Límite izquierdo
+    public float rightLimit = 15f;  // Límite derecho
 
-
-    public float CurrentMoventSpeed { 
-        get 
-        {
-            if (CanMove)
-            {
-                if (IsMoving)
-                {
-                    return walkSpeed;
-                }
-                else
-                {
-                    return 0;
-                }
-            }
-            else
-            {
-                return 0;
-            }
-        } 
-    }
-    [SerializeField]
-    public bool IsMoving
+    public float CurrentMoventSpeed
     {
         get
         {
-            return _isMoving;
+            if (CanMove)
+            {
+                return IsMoving ? walkSpeed : 0;
+            }
+            return 0;
         }
+    }
+
+    [SerializeField]
+    public bool IsMoving
+    {
+        get => _isMoving;
         set
         {
             _isMoving = value;
@@ -52,10 +40,7 @@ public class PlayerController : MonoBehaviour
 
     public bool IsFacingRight
     {
-        get
-        {
-            return _isFacingRight;
-        }
+        get => _isFacingRight;
         set
         {
             if (_isFacingRight != value)
@@ -63,16 +48,10 @@ public class PlayerController : MonoBehaviour
                 transform.localScale *= new Vector2(-1, 1);
             }
             _isFacingRight = value;
+        }
+    }
 
-        }
-    }
-    public bool CanMove
-    {
-        get
-        {
-            return animator.GetBool(AnimationStrings.canMove);
-        }
-    }
+    public bool CanMove => animator.GetBool(AnimationStrings.canMove);
 
     Rigidbody2D rb;
     Animator animator;
@@ -83,30 +62,24 @@ public class PlayerController : MonoBehaviour
         animator = GetComponent<Animator>();
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     private void FixedUpdate()
     {
-        rb.velocity = new Vector2(moveInput.x * CurrentMoventSpeed, 0);
-     
+        //Borrar para arreglar el error de los limites 
+        //rb.velocity = new Vector2(moveInput.x * CurrentMoventSpeed, 0);
+        // Calcular la nueva posición x
+        float newXPosition = rb.position.x + moveInput.x * CurrentMoventSpeed * Time.fixedDeltaTime;
+
+        // Aplicar límites
+        newXPosition = Mathf.Clamp(newXPosition, leftLimit, rightLimit);
+
+        // Actualizar la posición del Rigidbody2D
+        rb.MovePosition(new Vector2(newXPosition, rb.position.y));
     }
 
     public void OnMove(InputAction.CallbackContext context)
     {
         moveInput = context.ReadValue<Vector2>();
-
         IsMoving = moveInput != Vector2.zero;
-
         SetFacingDirection(moveInput);
     }
 
@@ -129,6 +102,4 @@ public class PlayerController : MonoBehaviour
             animator.SetTrigger(AnimationStrings.attack);
         }
     }
-
-    
 }
