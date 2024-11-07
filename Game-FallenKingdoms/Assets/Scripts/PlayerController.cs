@@ -13,6 +13,36 @@ public class PlayerController : MonoBehaviour
     public float leftLimit = -15f;  // Límite izquierdo
     public float rightLimit = 15f;  // Límite derecho
 
+    // Variables de salud
+    public int maxHealth = 100;
+    public int currentHealth;
+    public HealthBar healthBar;
+
+
+    // Variables de stamina
+    public int maxStamina = 100;
+    public int currentStamina;
+    public StaminaBar staminaBar;
+    public int staminaCostPerAttack = 10; // Costo de stamina por cada ataque
+    public float staminaRegenRate = 5f; // Cantidad de stamina que se regenera por segundo
+    //private bool isAttacking = false; // Controla si el jugador está atacando
+    private float lastAttackTime; // Tiempo del último ataque
+
+
+    void Start()
+    {
+        // Inicialización de salud
+        currentHealth = maxHealth;
+        healthBar.SetMaxHealth(maxHealth);
+
+        // Inicialización de stamina
+        currentStamina = maxStamina;
+        staminaBar.SetMaxStamina(maxStamina);
+
+        // Inicializar el tiempo del último ataque
+        lastAttackTime = -1f;
+    }
+
     public float CurrentMoventSpeed
     {
         get
@@ -62,6 +92,35 @@ public class PlayerController : MonoBehaviour
         animator = GetComponent<Animator>();
     }
 
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            TakeDamage(20);
+        }
+
+        // Verifica si han pasado 2 segundos desde el último ataque antes de regenerar stamina
+        if (Time.time - lastAttackTime >= 0.75f && currentStamina < maxStamina)
+        {
+            GetStamina(5); // Recupera 5 de stamina
+            lastAttackTime = Time.time; // Reinicia el tiempo del último ataque para el siguiente intervalo de 2 segundos
+        }
+    }
+
+    void TakeDamage(int damage)
+    {
+        currentHealth -= damage;
+        healthBar.SetHealth(currentHealth);
+    }
+
+    void GetStamina(int stamina)
+    {
+        currentStamina += stamina;
+        staminaBar.SetStamina(currentStamina);
+    }
+
+    
+
     private void FixedUpdate()
     {
         //Borrar para arreglar el error de los limites 
@@ -97,9 +156,15 @@ public class PlayerController : MonoBehaviour
 
     public void OnAttack(InputAction.CallbackContext context)
     {
-        if (context.started)
+        if (context.started && currentStamina >= staminaCostPerAttack)
         {
+            currentStamina -= staminaCostPerAttack; // Reduce la stamina por el costo del ataque
+            staminaBar.SetStamina(currentStamina); // Actualiza la barra de stamina
             animator.SetTrigger(AnimationStrings.attack);
+
+            lastAttackTime = Time.time; // Actualiza el tiempo del último ataque
         }
     }
+
+
 }
