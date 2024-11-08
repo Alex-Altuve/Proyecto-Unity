@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 5330558971061615803}
   - component: {fileID: 8189292374141649555}
   - component: {fileID: 2819754712337053070}
+  - component: {fileID: 3026452864905835172}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -205,21 +206,9 @@ MonoBehaviour:
     m_ActionId: 7f6e8a54-00a3-4a00-aef1-a7708664f59a
     m_ActionName: UI/TrackedDeviceOrientation
   - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2819754712337053070}
-        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
-        m_MethodName: OnRun
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_ActionId: fcda169c-7c5c-429d-a273-e0db85eae42e
-    m_ActionName: Player/Run[/Keyboard/shift]
+      m_Calls: []
+    m_ActionId: ca15fafe-4b40-4cba-b5d3-969835721d95
+    m_ActionName: Player/Escape[/Keyboard/escape]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -260,5 +249,49 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   walkSpeed: 5
   _isMoving: 0
-  _isRunning: 0
+  leftLimit: -15
+  rightLimit: 15
+  maxHealth: 100
+  currentHealth: 0
+  healthBar: {fileID: 0}
+  maxStamina: 100
+  currentStamina: 0
+  staminaBar: {fileID: 0}
+  staminaCostPerAttack: 10
+  staminaRegenRate: 5
   _isFacingRight: 1
+--- !u!70 &3026452864905835172
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7636847935501999440}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.3076025, y: -1.4055285}
+  m_Size: {x: 1.3345325, y: 2.4770575}
+  m_Direction: 0
