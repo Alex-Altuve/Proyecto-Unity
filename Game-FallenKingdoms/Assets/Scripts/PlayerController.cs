@@ -181,7 +181,6 @@ public class PlayerController : MonoBehaviour
         if (currentHealth == 0)
         {
             TextGameOver.text = "GAME OVER";
-            Debug.Log(currentHealth);
             StartCoroutine(PausarJuego());
         }
     }
