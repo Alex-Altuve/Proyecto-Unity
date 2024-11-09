@@ -51,11 +51,20 @@ public class PlayerController : MonoBehaviour
     {
         get
         {
-            if (CanMove)
+            //if (CanMove)
+            //{
+            //    return IsMoving ? walkSpeed : 0;
+            //}
+            //return 0;
+            if (IsMoving)
             {
-                return IsMoving ? walkSpeed : 0;
+                return walkSpeed;
             }
-            return 0;
+            else
+            {
+                ///idel spreed
+                return 0;
+            }
         }
     }
 
