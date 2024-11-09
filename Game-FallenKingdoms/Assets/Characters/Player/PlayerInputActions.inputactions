@@ -33,7 +33,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Escape",
+                    "name": "Salir",
                     "type": "Button",
                     "id": "ca15fafe-4b40-4cba-b5d3-969835721d95",
                     "expectedControlType": "Button",
@@ -210,12 +210,12 @@
                 },
                 {
                     "name": "",
-                    "id": "c29cfb3e-834b-4f90-b92f-2b616a3238a6",
+                    "id": "068e66b6-54cb-49e6-9173-5e5cf00afaae",
                     "path": "<Keyboard>/escape",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
-                    "action": "Escape",
+                    "action": "Salir",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

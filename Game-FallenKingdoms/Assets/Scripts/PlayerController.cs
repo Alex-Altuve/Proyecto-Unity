@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -27,6 +28,9 @@ public class PlayerController : MonoBehaviour
     public float staminaRegenRate = 5f; // Cantidad de stamina que se regenera por segundo
     //private bool isAttacking = false; // Controla si el jugador está atacando
     private float lastAttackTime; // Tiempo del último ataque
+
+    ///Mensaje de perdida
+    public Text TextGameOver;
 
 
     void Start()
@@ -111,6 +115,11 @@ public class PlayerController : MonoBehaviour
     {
         currentHealth -= damage;
         healthBar.SetHealth(currentHealth);
+
+        if (currentHealth <= 0)
+        {
+            GameOver();
+        }
     }
 
     void GetStamina(int stamina)
@@ -166,5 +175,31 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    ///Mensajes en caso que gane o pierda
+    public void GameOver()
+    {
+        if (currentHealth == 0)
+        {
+            TextGameOver.text = "GAME OVER";
+            Debug.Log(currentHealth);
+            StartCoroutine(PausarJuego());
+        }
+    }
 
+    /// Esto es para detener el juego
+    IEnumerator PausarJuego()
+    {
+        yield return new WaitForSeconds(3F);
+
+        QuitGame();
+    }
+
+    public void QuitGame()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+             Application.Quit();
+#endif
+    }
 }
