@@ -33,6 +33,7 @@ public class PlayerController : MonoBehaviour
     public Text TextGameOver;
 
 
+
     void Start()
     {
         // Inicialización de salud
@@ -118,6 +119,11 @@ public class PlayerController : MonoBehaviour
             GetStamina(5); // Recupera 5 de stamina
             lastAttackTime = Time.time; // Reinicia el tiempo del último ataque para el siguiente intervalo de 2 segundos
         }
+
+
+
+
+
     }
 
     void TakeDamage(int damage)
