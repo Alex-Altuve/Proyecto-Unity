@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 8189292374141649555}
   - component: {fileID: 2819754712337053070}
   - component: {fileID: 3026452864905835172}
+  - component: {fileID: 7400421423948906006}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -259,6 +260,7 @@ MonoBehaviour:
   staminaBar: {fileID: 0}
   staminaCostPerAttack: 10
   staminaRegenRate: 5
+  TextGameOver: {fileID: 0}
   _isFacingRight: 1
 --- !u!70 &3026452864905835172
 CapsuleCollider2D:
@@ -292,6 +294,34 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.3076025, y: -1.4055285}
-  m_Size: {x: 1.3345325, y: 2.4770575}
+  m_Offset: {x: -0.3076025, y: -1.3480625}
+  m_Size: {x: 1.3345325, y: 2.3621254}
   m_Direction: 0
+--- !u!114 &7400421423948906006
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7636847935501999440}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 712d54a8dae8ec14d8b702df7b400553, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  castFilter:
+    useTriggers: 0
+    useLayerMask: 0
+    useDepth: 0
+    useOutsideDepth: 0
+    useNormalAngle: 0
+    useOutsideNormalAngle: 0
+    layerMask:
+      serializedVersion: 2
+      m_Bits: 0
+    minDepth: 0
+    maxDepth: 0
+    minNormalAngle: 0
+    maxNormalAngle: 0
+  groundDistance: 0.05
+  _isGrounded: 0
