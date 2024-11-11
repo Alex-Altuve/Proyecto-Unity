@@ -4,10 +4,14 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
+[RequireComponent(typeof(Rigidbody2D), typeof(TouchingDirections))]
 public class PlayerController : MonoBehaviour
 {
     public float walkSpeed = 5f;
+    public float runSpeed = 8f; // Velocidad al correr
     Vector2 moveInput;
+
+    TouchingDirections touchingDirections;
 
     public bool _isMoving = false;
 
@@ -19,32 +23,34 @@ public class PlayerController : MonoBehaviour
     public int currentHealth;
     public HealthBar healthBar;
 
-
     // Variables de stamina
     public int maxStamina = 100;
     public int currentStamina;
     public StaminaBar staminaBar;
-    public int staminaCostPerAttack = 10; // Costo de stamina por cada ataque
-    public float staminaRegenRate = 5f; // Cantidad de stamina que se regenera por segundo
-    //private bool isAttacking = false; // Controla si el jugador está atacando
-    private float lastAttackTime; // Tiempo del último ataque
+    public int staminaCostPerAttack = 10;
+    public int staminaCostPerRun = 5;
+    public float staminaRegenRate = 5f;
+    private float lastAttackTime;
+    // Variable para llevar el tiempo transcurrido desde la última reducción de stamina
+    private float staminaReductionTimer = 0.5f;
 
     ///Mensaje de perdida
     public Text TextGameOver;
 
+    Rigidbody2D rb;
+    Animator animator;
+    public float jumpImpulse = 17f;
 
+    private bool isRunning = false; // Controla si está corriendo
 
     void Start()
     {
-        // Inicialización de salud
         currentHealth = maxHealth;
         healthBar.SetMaxHealth(maxHealth);
 
-        // Inicialización de stamina
         currentStamina = maxStamina;
         staminaBar.SetMaxStamina(maxStamina);
 
-        // Inicializar el tiempo del último ataque
         lastAttackTime = -1f;
     }
 
@@ -52,18 +58,21 @@ public class PlayerController : MonoBehaviour
     {
         get
         {
-            //if (CanMove)
-            //{
-            //    return IsMoving ? walkSpeed : 0;
-            //}
-            //return 0;
-            if (IsMoving)
+            if (IsMoving && !touchingDirections.IsOnWall)
             {
-                return walkSpeed;
+                // Verificar si el jugador está corriendo y tiene suficiente stamina
+                if (isRunning && currentStamina >= staminaCostPerRun)
+                {
+                    return runSpeed;
+                }
+                else
+                {
+                    // Si no tiene suficiente stamina para correr, usa walkSpeed
+                    return walkSpeed;
+                }
             }
             else
             {
-                ///idel spreed
                 return 0;
             }
         }
@@ -97,13 +106,11 @@ public class PlayerController : MonoBehaviour
 
     public bool CanMove => animator.GetBool(AnimationStrings.canMove);
 
-    Rigidbody2D rb;
-    Animator animator;
-
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        touchingDirections = GetComponent<TouchingDirections>();
     }
 
     void Update()
@@ -113,18 +120,17 @@ public class PlayerController : MonoBehaviour
             TakeDamage(20);
         }
 
-        // Verifica si han pasado 2 segundos desde el último ataque antes de regenerar stamina
-        if (Time.time - lastAttackTime >= 0.75f && currentStamina < maxStamina)
+        // Solo regenerar stamina si no está corriendo
+        if (!isRunning && Time.time - lastAttackTime >= 0.75f && currentStamina < maxStamina)
         {
-            GetStamina(5); // Recupera 5 de stamina
-            lastAttackTime = Time.time; // Reinicia el tiempo del último ataque para el siguiente intervalo de 2 segundos
+            GetStamina(5);
+            lastAttackTime = Time.time;
         }
 
-
-
-
-
+        // Detectar si Shift está presionado
+        isRunning = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
     }
+
 
     void TakeDamage(int damage)
     {
@@ -143,20 +149,45 @@ public class PlayerController : MonoBehaviour
         staminaBar.SetStamina(currentStamina);
     }
 
-    
-
     private void FixedUpdate()
     {
         //Borrar para arreglar el error de los limites 
         //rb.velocity = new Vector2(moveInput.x * CurrentMoventSpeed, 0);
         // Calcular la nueva posición x
-        float newXPosition = rb.position.x + moveInput.x * CurrentMoventSpeed * Time.fixedDeltaTime;
 
-        // Aplicar límites
-        newXPosition = Mathf.Clamp(newXPosition, leftLimit, rightLimit);
+        //float newXPosition = rb.position.x + moveInput.x * CurrentMoventSpeed * Time.fixedDeltaTime;
 
-        // Actualizar la posición del Rigidbody2D con los límites aplicados
-        rb.MovePosition(new Vector2(newXPosition, rb.position.y));
+        //// Aplicar límites
+        //newXPosition = Mathf.Clamp(newXPosition, leftLimit, rightLimit);
+
+        //// Actualizar la posición del Rigidbody2D con los límites aplicados
+        //rb.MovePosition(new Vector2(newXPosition, rb.position.y));
+
+
+        rb.velocity = new Vector2(moveInput.x * CurrentMoventSpeed, rb.velocity.y);
+
+        animator.SetFloat(AnimationStrings.yVelocity, rb.velocity.y);
+
+        // Si el personaje está corriendo y tiene suficiente stamina
+        if (isRunning && currentStamina >= staminaCostPerRun)
+        {
+            // Actualizar el temporizador
+            staminaReductionTimer -= Time.fixedDeltaTime;
+
+            // Reducir stamina cada 0.5 segundos
+            if (staminaReductionTimer <= 0)
+            {
+                currentStamina -= staminaCostPerRun;
+                staminaBar.SetStamina(currentStamina);
+                staminaReductionTimer = 0.5f; // Reiniciar el temporizador
+            }
+        }
+        else
+        {
+            // Reiniciar el temporizador si el personaje no está corriendo o no tiene suficiente stamina
+            staminaReductionTimer = 0.5f;
+        }
+
     }
 
     public void OnMove(InputAction.CallbackContext context)
@@ -182,15 +213,23 @@ public class PlayerController : MonoBehaviour
     {
         if (context.started && currentStamina >= staminaCostPerAttack)
         {
-            currentStamina -= staminaCostPerAttack; // Reduce la stamina por el costo del ataque
-            staminaBar.SetStamina(currentStamina); // Actualiza la barra de stamina
+            currentStamina -= staminaCostPerAttack;
+            staminaBar.SetStamina(currentStamina);
             animator.SetTrigger(AnimationStrings.attack);
 
-            lastAttackTime = Time.time; // Actualiza el tiempo del último ataque
+            lastAttackTime = Time.time;
         }
     }
 
-    ///Mensajes en caso que gane o pierda
+    public void OnJump(InputAction.CallbackContext context)
+    {
+        if (context.started && touchingDirections.IsGrounded)
+        {
+            animator.SetTrigger(AnimationStrings.jump);
+            rb.velocity = new Vector2(rb.velocity.x, jumpImpulse);
+        }
+    }
+
     public void GameOver()
     {
         if (currentHealth == 0)
@@ -200,7 +239,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    /// Esto es para detener el juego
     IEnumerator PausarJuego()
     {
         yield return new WaitForSeconds(3F);
