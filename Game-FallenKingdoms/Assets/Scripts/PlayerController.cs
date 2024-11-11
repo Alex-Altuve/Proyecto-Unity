@@ -10,6 +10,8 @@ public class PlayerController : MonoBehaviour
     public float walkSpeed = 5f;
     public float runSpeed = 8f; // Velocidad al correr
     Vector2 moveInput;
+    Collider2D playerCollider;
+    Rigidbody2D playerRigidBody;
 
     TouchingDirections touchingDirections;
 
@@ -52,6 +54,9 @@ public class PlayerController : MonoBehaviour
         staminaBar.SetMaxStamina(maxStamina);
 
         lastAttackTime = -1f;
+
+        playerCollider = gameObject.GetComponent<Collider2D>();
+        playerRigidBody = gameObject.GetComponent<Rigidbody2D>();
     }
 
     public float CurrentMoventSpeed
@@ -115,6 +120,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        Die();
         if (Input.GetKeyDown(KeyCode.Space))
         {
             TakeDamage(20);
@@ -232,16 +238,15 @@ public class PlayerController : MonoBehaviour
 
     public void GameOver()
     {
-        if (currentHealth == 0)
-        {
-            TextGameOver.text = "GAME OVER";
-            StartCoroutine(PausarJuego());
-        }
+       
+        TextGameOver.text = "GAME OVER";
+        StartCoroutine(PausarJuego());
+        
     }
 
     IEnumerator PausarJuego()
     {
-        yield return new WaitForSeconds(3F);
+        yield return new WaitForSeconds(2F);
 
         QuitGame();
     }
@@ -254,4 +259,20 @@ public class PlayerController : MonoBehaviour
              Application.Quit();
 #endif
     }
+
+    private void Die()
+    {
+        if (playerCollider.IsTouchingLayers(LayerMask.GetMask("Vacio")))
+        {
+            playerRigidBody.constraints = RigidbodyConstraints2D.None;
+            GameOver();
+        }
+        if (playerCollider.IsTouchingLayers(LayerMask.GetMask("Enemies")))
+        {
+            //animator.SetTrigger("dead");
+       
+        }
+    }
+
 }
+
