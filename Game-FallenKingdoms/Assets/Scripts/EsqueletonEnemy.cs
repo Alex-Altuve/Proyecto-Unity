@@ -7,21 +7,31 @@ using UnityEngine;
 public class EsqueletonEnemy : MonoBehaviour
 {
 
-    public float Walkspeed = 3f;
+   
     // Start is called before the first frame update
     Rigidbody2D rb;
+    TouchingDirections touchingDirections;
+    Animator animator;
+
+    public float Walkspeed = 3f;
+    public float malkStopRate = 0.6f;
     public enum WalkableDirection { Left, Right}
     private WalkableDirection _walkDirection;
     private Vector2 walkDirectionVector = Vector2.right;
-    TouchingDirections touchingDirections;
-
+    public DetectionZone attackZone;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         touchingDirections = GetComponent<TouchingDirections>();
+        animator = GetComponent<Animator>();
     }
-
+   
+    // Update is called once per frame
+    void Update()
+    {
+        HasTarget= attackZone.detectedColliders.Count > 0;
+    }
     public WalkableDirection WalkDirection
     {
         get { return _walkDirection; }
@@ -43,13 +53,30 @@ public class EsqueletonEnemy : MonoBehaviour
         }
     }
 
+    public bool HasTarget {
+        get { return _hasTarget; } private set
+        {
+           _hasTarget = value;
+            animator.SetBool(AnimationStrings.hasTarget, value);
+        } }
+
+    public bool _hasTarget = false;
+
     private void FixedUpdate()
     {
         if(touchingDirections.IsGrounded && touchingDirections.IsOnWall)
         {
             FlipDirections();
         }
-        rb.velocity = new Vector2(Walkspeed * walkDirectionVector.x, rb.velocity.y);
+        if (CanMove)
+        {
+            rb.velocity = new Vector2(Walkspeed * walkDirectionVector.x, rb.velocity.y);
+        }
+        else
+        {
+            rb.velocity = new Vector2(Mathf.Lerp(rb.velocity.x,0, malkStopRate), rb.velocity.y);
+        }
+       
 
     }
 
@@ -68,14 +95,16 @@ public class EsqueletonEnemy : MonoBehaviour
         }
     }
 
+    public bool CanMove
+    {
+        get{ 
+            return animator.GetBool(AnimationStrings.canMove);
+        }
+    }
     void Start()
     {
         
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+   
 }
