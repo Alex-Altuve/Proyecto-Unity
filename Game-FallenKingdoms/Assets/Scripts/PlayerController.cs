@@ -121,10 +121,6 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         Die();
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            TakeDamage(20);
-        }
 
         // Solo regenerar stamina si no está corriendo
         if (!isRunning && Time.time - lastAttackTime >= 0.75f && currentStamina < maxStamina)
