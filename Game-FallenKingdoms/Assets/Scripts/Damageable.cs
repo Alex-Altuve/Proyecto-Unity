@@ -37,7 +37,7 @@ public class Damageable : MonoBehaviour
 
             if(_health < 0) 
             {
-                IsAlive = false;
+                //IsAlive = false;
             }
         }
     }
@@ -80,7 +80,7 @@ public class Damageable : MonoBehaviour
             timeSinceHit += Time.deltaTime;
         }
 
-        Hit(10);
+        //Hit(10);
     }
 
     public void Hit(int damage)

@@ -36,6 +36,9 @@ public class PlayerController : MonoBehaviour
     // Variable para llevar el tiempo transcurrido desde la última reducción de stamina
     private float staminaReductionTimer = 0.5f;
 
+    [SerializeField] 
+    private Damageable damageable;
+
     ///Mensaje de perdida
     public Text TextGameOver;
 
@@ -57,6 +60,12 @@ public class PlayerController : MonoBehaviour
 
         playerCollider = gameObject.GetComponent<Collider2D>();
         playerRigidBody = gameObject.GetComponent<Rigidbody2D>();
+
+        // Obtener el componente Damageable si está en el mismo objeto
+        if (damageable == null)
+        {
+            damageable = GetComponent<Damageable>();
+        }
     }
 
     public float CurrentMoventSpeed
@@ -141,6 +150,19 @@ public class PlayerController : MonoBehaviour
 
         if (currentHealth <= 0)
         {
+
+            currentHealth = 0;
+
+            if (damageable != null)
+            {
+                damageable.IsAlive = false; // Cambia el estado a no vivo
+            }
+
+            Debug.Log("Player has died.");
+
+            // Cambiar el estado de CanMove en el Animator
+            animator.SetBool(AnimationStrings.canMove, false);
+
             GameOver();
         }
     }
@@ -153,18 +175,13 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        //Borrar para arreglar el error de los limites 
-        //rb.velocity = new Vector2(moveInput.x * CurrentMoventSpeed, 0);
-        // Calcular la nueva posición x
 
-        //float newXPosition = rb.position.x + moveInput.x * CurrentMoventSpeed * Time.fixedDeltaTime;
-
-        //// Aplicar límites
-        //newXPosition = Mathf.Clamp(newXPosition, leftLimit, rightLimit);
-
-        //// Actualizar la posición del Rigidbody2D con los límites aplicados
-        //rb.MovePosition(new Vector2(newXPosition, rb.position.y));
-
+        // Detener el movimiento si CanMove es falso
+        if (!CanMove)
+        {
+            rb.velocity = new Vector2(0, rb.velocity.y);
+            return;
+        }
 
         rb.velocity = new Vector2(moveInput.x * CurrentMoventSpeed, rb.velocity.y);
 
@@ -195,8 +212,18 @@ public class PlayerController : MonoBehaviour
     public void OnMove(InputAction.CallbackContext context)
     {
         moveInput = context.ReadValue<Vector2>();
-        IsMoving = moveInput != Vector2.zero;
-        SetFacingDirection(moveInput);
+
+        if (damageable.IsAlive)
+        {
+            IsMoving = moveInput != Vector2.zero;
+            SetFacingDirection(moveInput);
+        }
+        else
+        {
+            IsMoving = false;
+        }
+
+        
     }
 
     private void SetFacingDirection(Vector2 moveInput)
@@ -242,7 +269,7 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator PausarJuego()
     {
-        yield return new WaitForSeconds(2F);
+        yield return new WaitForSeconds(4F);
 
         QuitGame();
     }
