@@ -59,7 +59,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -279,6 +279,7 @@ MonoBehaviour:
   staminaCostPerAttack: 10
   staminaCostPerRun: 5
   staminaRegenRate: 5
+  damageable: {fileID: 0}
   TextGameOver: {fileID: 0}
   jumpImpulse: 10
   _isFacingRight: 1
@@ -362,7 +363,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxHealth: 0
-  _health: 100
   _isAlive: 1
   isInvincible: 0
   invincibilityTime: 0.25

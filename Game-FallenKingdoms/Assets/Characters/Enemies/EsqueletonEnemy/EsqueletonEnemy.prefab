@@ -60,7 +60,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -189,8 +189,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Walkspeed: 3
   malkStopRate: 0.6
+  followDistance: 5
+  stopDistance: 2
+  player: {fileID: 0}
   attackZone: {fileID: 2545263055274167315}
-  _hasTarget: 0
 --- !u!114 &2435267904906142046
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -236,7 +238,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _maxHealth: 0
-  _health: 100
   _isAlive: 1
   isInvincible: 0
   invincibilityTime: 0.25
