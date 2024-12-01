@@ -6,16 +6,17 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D), typeof(TouchingDirections))]
 public class EsqueletonEnemy : MonoBehaviour
 {
-
-   
-    // Start is called before the first frame update
     Rigidbody2D rb;
     TouchingDirections touchingDirections;
     Animator animator;
 
     public float Walkspeed = 3f;
     public float malkStopRate = 0.6f;
-    public enum WalkableDirection { Left, Right}
+    public float followDistance = 5f; // Distancia a la que comienza a seguir
+    public float stopDistance = 2f;    // Distancia mínima para no estar en la misma posición que el jugador
+    public Transform player;            // Referencia al jugador
+
+    public enum WalkableDirection { Left, Right }
     private WalkableDirection _walkDirection;
     private Vector2 walkDirectionVector = Vector2.right;
     public DetectionZone attackZone;
@@ -26,16 +27,38 @@ public class EsqueletonEnemy : MonoBehaviour
         touchingDirections = GetComponent<TouchingDirections>();
         animator = GetComponent<Animator>();
     }
-   
-    // Update is called once per frame
+
     void Update()
     {
-        HasTarget= attackZone.detectedColliders.Count > 0;
+        HasTarget = attackZone.detectedColliders.Count > 0;
+
+        if (player != null)
+        {
+            float distanceToPlayer = Vector2.Distance(transform.position, player.position);
+            if (distanceToPlayer < followDistance && distanceToPlayer > stopDistance)
+            {
+                // Moverse hacia el jugador
+                if (transform.position.x > player.position.x)
+                {
+                    WalkDirection = WalkableDirection.Right;
+                }
+                else
+                {
+                    WalkDirection = WalkableDirection.Left;
+                }
+            }
+            else
+            {
+                // Detenerse si está dentro de la distancia mínima
+                WalkDirection = WalkDirection; // Mantiene la dirección actual
+            }
+        }
     }
+
     public WalkableDirection WalkDirection
     {
         get { return _walkDirection; }
-        set 
+        set
         {
             if (_walkDirection != value)
             {
@@ -44,7 +67,8 @@ public class EsqueletonEnemy : MonoBehaviour
                 if (_walkDirection == WalkableDirection.Right)
                 {
                     walkDirectionVector = Vector2.right;
-                }else if (_walkDirection == WalkableDirection.Left)
+                }
+                else if (_walkDirection == WalkableDirection.Left)
                 {
                     walkDirectionVector = Vector2.left;
                 }
@@ -53,18 +77,21 @@ public class EsqueletonEnemy : MonoBehaviour
         }
     }
 
-    public bool HasTarget {
-        get { return _hasTarget; } private set
+    public bool HasTarget
+    {
+        get { return _hasTarget; }
+        private set
         {
-           _hasTarget = value;
+            _hasTarget = value;
             animator.SetBool(AnimationStrings.hasTarget, value);
-        } }
+        }
+    }
 
-    public bool _hasTarget = false;
+    private bool _hasTarget = false;
 
     private void FixedUpdate()
     {
-        if(touchingDirections.IsGrounded && touchingDirections.IsOnWall)
+        if (touchingDirections.IsGrounded && touchingDirections.IsOnWall)
         {
             FlipDirections();
         }
@@ -74,37 +101,22 @@ public class EsqueletonEnemy : MonoBehaviour
         }
         else
         {
-            rb.velocity = new Vector2(Mathf.Lerp(rb.velocity.x,0, malkStopRate), rb.velocity.y);
+            rb.velocity = new Vector2(Mathf.Lerp(rb.velocity.x, 0, malkStopRate), rb.velocity.y);
         }
-       
-
     }
 
     private void FlipDirections()
     {
-        if (WalkDirection == WalkableDirection.Right )
-        {
-            WalkDirection = WalkableDirection.Left;
-        }else if (WalkDirection == WalkableDirection.Left)
-        {
-            WalkDirection = WalkableDirection.Right;
-        }
-        else
-        {
-            Debug.LogError("Current walkable directions is not set to legal values of right o left");
-        }
+        WalkDirection = (WalkDirection == WalkableDirection.Right) ? WalkableDirection.Left : WalkableDirection.Right;
     }
 
     public bool CanMove
     {
-        get{ 
-            return animator.GetBool(AnimationStrings.canMove);
-        }
-    }
-    void Start()
-    {
-        
+        get { return animator.GetBool(AnimationStrings.canMove); }
     }
 
-   
+    void Start()
+    {
+
+    }
 }
