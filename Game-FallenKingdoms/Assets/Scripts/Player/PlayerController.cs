@@ -240,7 +240,8 @@ public class PlayerController : MonoBehaviour
 
     public void OnAttack(InputAction.CallbackContext context)
     {
-        if (context.started && currentStamina >= staminaCostPerAttack)
+        // Asegúrate de que el jugador esté en el suelo y que haya suficiente stamina
+        if (context.started && touchingDirections.IsGrounded && currentStamina >= staminaCostPerAttack)
         {
             currentStamina -= staminaCostPerAttack;
             staminaBar.SetStamina(currentStamina);
