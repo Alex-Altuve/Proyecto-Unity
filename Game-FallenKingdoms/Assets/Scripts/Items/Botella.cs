@@ -47,7 +47,7 @@ public class BottlePickup : MonoBehaviour
             {
                 Destroy(luz); // Destruir el objeto de luz
             }
-
+        
             Destroy(gameObject); // Destruir la botella después de recogerla
         }
     }
