@@ -87,7 +87,7 @@ TextureImporter:
       213: -3888567672798316567
     second: TX Chest Animation Golden 6
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 13
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -104,11 +104,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -147,6 +148,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -158,6 +161,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -170,6 +174,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -182,6 +187,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -194,6 +200,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
@@ -798,37 +805,36 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      TX Chest Animation Silver 1: 8901239322130806984
-      TX Chest Animation Iron 0: 5233871863560122000
-      TX Chest Animation Silver 6: 5501649885831989918
-      TX Chest Animation Iron 4: -7148347082035780633
-      TX Chest Animation Golden 2: -2859092616773691244
-      TX Chest Animation Silver 3: 3119438749017079868
-      TX Chest Animation Iron 5: -6398334591226318208
       TX Chest Animation Golden 0: -6929924221510541977
-      TX Chest Animation Golden 3: 2094815519824226833
-      TX Chest Animation Iron 2: 8206291628881865982
-      TX Chest Animation Iron 6: 6756677616160534888
-      TX Chest Animation Wooden 5: 3186618823931839756
-      TX Chest Animation Wooden 2: 7729124679938002231
-      TX Chest Animation Wooden 4: 2032627284715886908
-      TX Chest Animation Golden 4: -2983415483628201805
-      TX Chest Animation Silver 4: 4918926099135234322
-      TX Chest Animation Iron 1: 3278100515923679428
-      TX Chest Animation Silver 2: 1052626010940248532
-      TX Chest Animation Wooden 3: 6231711225017064468
-      TX Chest Animation Wooden 1: 2628861295414256057
       TX Chest Animation Golden 1: -8385124645873774784
-      TX Chest Animation Wooden 6: -1440598482483040155
-      TX Chest Animation Iron 3: -7401870491986572264
-      TX Chest Animation Silver 5: -881816029012212927
+      TX Chest Animation Golden 2: -2859092616773691244
+      TX Chest Animation Golden 3: 2094815519824226833
+      TX Chest Animation Golden 4: -2983415483628201805
       TX Chest Animation Golden 5: 1880024034202856855
-      TX Chest Animation Silver 0: 3849778927949640068
-      TX Chest Animation Wooden 0: -1309413244939661745
       TX Chest Animation Golden 6: -3888567672798316567
-  spritePackingTag: 
+      TX Chest Animation Iron 0: 5233871863560122000
+      TX Chest Animation Iron 1: 3278100515923679428
+      TX Chest Animation Iron 2: 8206291628881865982
+      TX Chest Animation Iron 3: -7401870491986572264
+      TX Chest Animation Iron 4: -7148347082035780633
+      TX Chest Animation Iron 5: -6398334591226318208
+      TX Chest Animation Iron 6: 6756677616160534888
+      TX Chest Animation Silver 0: 3849778927949640068
+      TX Chest Animation Silver 1: 8901239322130806984
+      TX Chest Animation Silver 2: 1052626010940248532
+      TX Chest Animation Silver 3: 3119438749017079868
+      TX Chest Animation Silver 4: 4918926099135234322
+      TX Chest Animation Silver 5: -881816029012212927
+      TX Chest Animation Silver 6: 5501649885831989918
+      TX Chest Animation Wooden 0: -1309413244939661745
+      TX Chest Animation Wooden 1: 2628861295414256057
+      TX Chest Animation Wooden 2: 7729124679938002231
+      TX Chest Animation Wooden 3: 6231711225017064468
+      TX Chest Animation Wooden 4: 2032627284715886908
+      TX Chest Animation Wooden 5: 3186618823931839756
+      TX Chest Animation Wooden 6: -1440598482483040155
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 

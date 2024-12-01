@@ -64,3 +64,6 @@ TagManager:
   - name: Fondo_vacio
     uniqueID: 1681134043
     locked: 0
+  - name: Plataformas
+    uniqueID: 3197208293
+    locked: 0
