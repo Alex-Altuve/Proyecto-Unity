@@ -231,8 +231,8 @@ public class PlayerController : MonoBehaviour
 
     public void OnJump(InputAction.CallbackContext context)
     {
-        // No permitir saltar si el jugador está tocando el layer "Vacio"
-        if (!canMove) return;
+        // No permitir saltar si el jugador está muerto o no puede moverse
+        if (!canMove || !damageable.IsAlive) return;
 
         if (context.started && touchingDirections.IsGrounded)
         {
