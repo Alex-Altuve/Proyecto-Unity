@@ -164,7 +164,19 @@ MonoBehaviour:
     m_ActionId: ad613867-f141-4f48-90f3-ad869effdfec
     m_ActionName: Player/Look[/Mouse/delta]
   - m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2819754712337053070}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnAttack
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_ActionId: eccfb28b-6bac-44ff-a19f-f459c0ee5eff
     m_ActionName: Player/Attack[/Mouse/leftButton]
   - m_PersistentCalls:
@@ -208,10 +220,6 @@ MonoBehaviour:
     m_ActionId: 7f6e8a54-00a3-4a00-aef1-a7708664f59a
     m_ActionName: UI/TrackedDeviceOrientation
   - m_PersistentCalls:
-      m_Calls: []
-    m_ActionId: ca15fafe-4b40-4cba-b5d3-969835721d95
-    m_ActionName: Player/Escape[/Keyboard/escape]
-  - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2819754712337053070}
         m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
@@ -227,6 +235,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 8d22739f-fa1a-47a8-b4eb-fa29e1273ce9
     m_ActionName: Player/Jump[/Keyboard/w]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2819754712337053070}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnRoll
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: b66232fb-5b18-415e-ab62-693df54cbd1c
+    m_ActionName: Player/Roll[/Keyboard/g]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
