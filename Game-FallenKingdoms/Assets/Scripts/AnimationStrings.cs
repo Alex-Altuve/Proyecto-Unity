@@ -17,5 +17,10 @@ internal class AnimationStrings
     internal static string hasTarget = "hasTarget";
     internal static string isAlive = "isAlive";
     internal static string roll = "roll";
-    internal static string isRolling = "isRolling";  
+    internal static string isRolling = "isRolling";
+    internal static string slide = "slide";
+    internal static string isSliding = "isSliding";
+    internal static string crouch = "crouch"; 
+    internal static string isCrouching = "isCrouching";
+    internal static string crouchWalk = "crouchWalk";
 }

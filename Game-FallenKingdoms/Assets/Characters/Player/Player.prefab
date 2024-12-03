@@ -251,6 +251,38 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: b66232fb-5b18-415e-ab62-693df54cbd1c
     m_ActionName: Player/Roll[/Keyboard/g]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2819754712337053070}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnSlide
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 2b138c7f-ad93-4785-b9dd-cdcb3aa2c4b0
+    m_ActionName: Player/Slide[/Keyboard/v]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2819754712337053070}
+        m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+        m_MethodName: OnCruch
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 922680f4-fbd8-4a4b-8396-48a64fde589f
+    m_ActionName: Player/Crouch[/Keyboard/s,/Keyboard/downArrow]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Player
@@ -291,21 +323,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   walkSpeed: 5
   runSpeed: 8
+  jumpImpulse: 10
   _isMoving: 0
-  leftLimit: -15
-  rightLimit: 15
   maxHealth: 100
   currentHealth: 0
   healthBar: {fileID: 0}
   maxStamina: 100
   currentStamina: 0
   staminaBar: {fileID: 0}
+  staminaCostPerRoll: 10
   staminaCostPerAttack: 10
   staminaCostPerRun: 5
   staminaRegenRate: 5
   damageable: {fileID: 0}
   TextGameOver: {fileID: 0}
-  jumpImpulse: 10
   _isFacingRight: 1
 --- !u!70 &3026452864905835172
 CapsuleCollider2D:

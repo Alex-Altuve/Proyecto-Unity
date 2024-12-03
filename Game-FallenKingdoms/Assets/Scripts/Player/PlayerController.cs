@@ -276,7 +276,48 @@ public class PlayerController : MonoBehaviour
             
         }
     }
+    //va un pelin lento probar con Peña
+    public void OnSlide(InputAction.CallbackContext context)
+    {
+        // No permitir rodar si el jugador está muerto o no puede moverse
+        if (!canMove || !damageable.IsAlive) return;
 
+        if (context.started)
+        {
+            animator.SetBool(AnimationStrings.isSliding, true);
+            animator.SetTrigger(AnimationStrings.slide);
+
+        }
+        else if (context.canceled)
+        {
+            // Si el contexto se cancela, restablece el estado
+            animator.SetBool(AnimationStrings.isSliding, false);
+
+        }
+    }
+
+    public void OnCruch(InputAction.CallbackContext context)
+    {
+        // No permitir rodar si el jugador está muerto o no puede moverse
+        if (!canMove || !damageable.IsAlive) return;
+
+        if (context.started)
+        {
+            animator.SetTrigger(AnimationStrings.crouch);
+            animator.SetBool(AnimationStrings.isCrouching, true);
+            if (IsMoving)
+            {
+                animator.SetTrigger(AnimationStrings.crouchWalk);
+            }
+            
+        }
+        else if (context.canceled)
+        {
+            // Si el contexto se cancela, restablece el estado
+            animator.SetBool(AnimationStrings.isCrouching, false);
+
+        }
+    }
 
     /// Mensajes
     public void GameOver()
