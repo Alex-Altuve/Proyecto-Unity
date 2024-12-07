@@ -25,7 +25,10 @@ public class PlayerController : MonoBehaviour
     private bool canMove = true; // Controlador de movimiento
     private bool isRunning = false; // Controla si está corriendo
     private bool isRolling = false;
-
+    private float rollDuration = 2f; // Duración de la acción de rodar
+    private float slideDuration = 1f; // Duración de la acción de deslizar
+    private Coroutine rollCoroutine;
+    private Coroutine slideCoroutine;
     // Variables de salud
     public int maxHealth = 100;
     public int currentHealth;
@@ -37,7 +40,8 @@ public class PlayerController : MonoBehaviour
     public StaminaBar staminaBar;
     
     ///Reduccion de estamina por accion
-    public int staminaCostPerRoll = 10;
+    public int staminaCostPerRoll = 15;
+    public int staminaCostPerSlide = 10;
     public int staminaCostPerAttack = 10;
     public int staminaCostPerRun = 5;
     private float staminaReductionTimer = 0.5f;
@@ -138,7 +142,8 @@ public class PlayerController : MonoBehaviour
     //Reduccion de estamina 
     public void ReduccionEstamina_Mecanica()
     {
-        if (isRunning && currentStamina >= staminaCostPerRun)
+        // Asegúrate de que el jugador esté en movimiento y corriendo para reducir la estamina
+        if (isRunning && IsMoving && currentStamina >= staminaCostPerRun)
         {
             staminaReductionTimer -= Time.fixedDeltaTime;
 
@@ -151,7 +156,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            staminaReductionTimer = 0.5f;
+            staminaReductionTimer = 0.5f; // Reiniciar el temporizador si no está corriendo
         }
     }
 
@@ -222,6 +227,31 @@ public class PlayerController : MonoBehaviour
     public void OnMove(InputAction.CallbackContext context)
     {
         moveInput = context.ReadValue<Vector2>();
+
+        // Si el jugador está rodando o deslizándose, no permitir cambiar de dirección
+        if (animator.GetBool(AnimationStrings.isRolling) || animator.GetBool(AnimationStrings.isSliding))
+        {
+            // Solo permitir el movimiento hacia la dirección actual
+            if (moveInput.x != 0 && (IsFacingRight && moveInput.x < 0 || !IsFacingRight && moveInput.x > 0))
+            {
+                // Cancelar la acción de rodar o deslizar
+                if (rollCoroutine != null)
+                {
+                    StopCoroutine(rollCoroutine);
+                    rollCoroutine = null;
+                    animator.SetBool(AnimationStrings.isRolling, false);
+                }
+
+                if (slideCoroutine != null)
+                {
+                    StopCoroutine(slideCoroutine);
+                    slideCoroutine = null;
+                    animator.SetBool(AnimationStrings.isSliding, false);
+                }
+                return; // No permitir movimiento en dirección opuesta
+            }
+        }
+
         if (damageable.IsAlive)
         {
             IsMoving = moveInput != Vector2.zero;
@@ -243,12 +273,17 @@ public class PlayerController : MonoBehaviour
             lastAttackTime = Time.time;
         }
     }
-   
+
     public void OnJump(InputAction.CallbackContext context)
     {
-       
         // No permitir saltar si el jugador está muerto o no puede moverse
         if (!canMove || !damageable.IsAlive) return;
+
+        // Verificar si el jugador está rodando, deslizándose o agachado
+        if (animator.GetBool(AnimationStrings.isRolling) || animator.GetBool(AnimationStrings.isSliding) || animator.GetBool(AnimationStrings.isCrouching))
+        {
+            return; // No permitir saltar en estos estados
+        }
 
         if (context.started && touchingDirections.IsGrounded)
         {
@@ -262,38 +297,56 @@ public class PlayerController : MonoBehaviour
     {
         // No permitir rodar si el jugador está muerto o no puede moverse
         if (!canMove || !damageable.IsAlive) return;
-   
-        if (context.started)
+
+        if (context.started && rollCoroutine == null)
         {
-            animator.SetBool(AnimationStrings.isRolling, true);
-            animator.SetTrigger(AnimationStrings.roll);
-    
-        }
-        else if (context.canceled)
-        {
-            // Si el contexto se cancela, restablece el estado
-            animator.SetBool(AnimationStrings.isRolling, false);
-            
+            // Verificar si hay suficiente stamina para rodar
+            if (currentStamina >= staminaCostPerRoll)
+            {
+                currentStamina -= staminaCostPerRoll; // Reducir stamina
+                staminaBar.SetStamina(currentStamina); // Actualizar la barra de stamina
+                rollCoroutine = StartCoroutine(Roll());
+            }
         }
     }
-    //va un pelin lento probar con Peña
+
+    private IEnumerator Roll()
+    {
+        animator.SetBool(AnimationStrings.isRolling, true);
+        animator.SetTrigger(AnimationStrings.roll);
+
+        yield return new WaitForSeconds(rollDuration);
+
+        animator.SetBool(AnimationStrings.isRolling, false);
+        rollCoroutine = null; // Reiniciar la coroutine
+    }
+
     public void OnSlide(InputAction.CallbackContext context)
     {
-        // No permitir rodar si el jugador está muerto o no puede moverse
+        // No permitir deslizar si el jugador está muerto o no puede moverse
         if (!canMove || !damageable.IsAlive) return;
 
-        if (context.started)
+        if (context.started && slideCoroutine == null)
         {
-            animator.SetBool(AnimationStrings.isSliding, true);
-            animator.SetTrigger(AnimationStrings.slide);
-
+            // Verificar si hay suficiente stamina para deslizar
+            if (currentStamina >= staminaCostPerSlide) // Usar el mismo coste que para rodar
+            {
+                currentStamina -= staminaCostPerSlide; // Reducir stamina
+                staminaBar.SetStamina(currentStamina); // Actualizar la barra de stamina
+                slideCoroutine = StartCoroutine(Slide());
+            }
         }
-        else if (context.canceled)
-        {
-            // Si el contexto se cancela, restablece el estado
-            animator.SetBool(AnimationStrings.isSliding, false);
+    }
 
-        }
+    private IEnumerator Slide()
+    {
+        animator.SetBool(AnimationStrings.isSliding, true);
+        animator.SetTrigger(AnimationStrings.slide);
+
+        yield return new WaitForSeconds(slideDuration);
+
+        animator.SetBool(AnimationStrings.isSliding, false);
+        slideCoroutine = null; // Reiniciar la coroutine
     }
 
     public void OnCruch(InputAction.CallbackContext context)
