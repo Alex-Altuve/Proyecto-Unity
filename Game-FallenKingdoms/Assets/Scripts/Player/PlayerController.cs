@@ -18,8 +18,10 @@ public class PlayerController : MonoBehaviour
     Rigidbody2D playerRigidBody;
     Rigidbody2D rb;
     Animator animator;
-
+    public LuzGlobal luzGlobal; // Referencia al script de LuzGlobal
     TouchingDirections touchingDirections;
+    public ParticleSystem actionParticles; // Partículas para salto y cambio de dirección
+
 
     public bool _isMoving = false;
     private bool canMove = true; // Controlador de movimiento
@@ -131,6 +133,12 @@ public class PlayerController : MonoBehaviour
             animator.SetBool(AnimationStrings.canMove, false);
             GameOver();
         }
+
+        // Actualiza la luz global después de recibir daño
+        if (luzGlobal != null)
+        {
+            luzGlobal.UpdateGlobalLight(currentHealth, maxHealth); // Llama a la función de luz global
+        }
     }
 
     void GetStamina(int stamina)
@@ -166,10 +174,20 @@ public class PlayerController : MonoBehaviour
         if (moveInput.x > 0 && !IsFacingRight)
         {
             IsFacingRight = true;
+            // Activar partículas para la acción
+            if (actionParticles != null)
+            {
+                actionParticles.Play();
+            }
         }
         else if (moveInput.x < 0 && IsFacingRight)
         {
             IsFacingRight = false;
+            // Activar partículas para la acción
+            if (actionParticles != null)
+            {
+                actionParticles.Play();
+            }
         }
     }
 
@@ -276,10 +294,8 @@ public class PlayerController : MonoBehaviour
 
     public void OnJump(InputAction.CallbackContext context)
     {
-        // No permitir saltar si el jugador está muerto o no puede moverse
         if (!canMove || !damageable.IsAlive) return;
 
-        // Verificar si el jugador está rodando, deslizándose o agachado
         if (animator.GetBool(AnimationStrings.isRolling) || animator.GetBool(AnimationStrings.isSliding) || animator.GetBool(AnimationStrings.isCrouching))
         {
             return; // No permitir saltar en estos estados
@@ -289,6 +305,12 @@ public class PlayerController : MonoBehaviour
         {
             animator.SetTrigger(AnimationStrings.jump);
             rb.velocity = new Vector2(rb.velocity.x, jumpImpulse);
+
+            // Activar partículas para la acción
+            if (actionParticles != null)
+            {
+                actionParticles.Play();
+            }
         }
     }
 

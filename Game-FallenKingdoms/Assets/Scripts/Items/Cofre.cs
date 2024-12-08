@@ -11,6 +11,9 @@ public class Cofre : MonoBehaviour
     public GameObject luz; // Referencia al objeto de luz
     public float interactionDistance = 2f; // Distancia de interacción
     private Transform player; // Referencia al jugador
+    [FoldoutGroup("Reference")]
+    public AudioSource audioSource; // Componente AudioSource
+    public AudioClip openSound; // Clip de sonido para abrir el cofre
 
     [FoldoutGroup("Runtime"), ShowInInspector, DisableInEditMode]
     public bool IsOpened
@@ -23,6 +26,11 @@ public class Cofre : MonoBehaviour
             if (isOpened)
             {
                 ActivateBottle();
+                PlayOpenSound(); // Reproduce el sonido al abrir
+            }
+            else
+            {
+                StopOpenSound(); // Detiene el sonido al cerrar
             }
         }
     }
@@ -55,6 +63,23 @@ public class Cofre : MonoBehaviour
     public void Open()
     {
         IsOpened = true;
+    }
+
+    private void PlayOpenSound()
+    {
+        if (audioSource != null && openSound != null)
+        {
+            audioSource.clip = openSound; // Asigna el clip de sonido
+            audioSource.Play(); // Reproduce el sonido
+        }
+    }
+
+    private void StopOpenSound()
+    {
+        if (audioSource != null)
+        {
+            audioSource.Stop(); // Detiene el sonido
+        }
     }
 
     [FoldoutGroup("Runtime"), Button("Close"), HorizontalGroup("Runtime/Button")]
