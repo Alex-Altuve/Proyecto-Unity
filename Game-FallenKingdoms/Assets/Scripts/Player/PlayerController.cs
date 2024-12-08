@@ -21,7 +21,7 @@ public class PlayerController : MonoBehaviour
     public LuzGlobal luzGlobal; // Referencia al script de LuzGlobal
     TouchingDirections touchingDirections;
     public ParticleSystem actionParticles; // Partículas para salto y cambio de dirección
-
+    public event Action<int, int> OnHealthChanged; // Evento para notificar el cambio de salud
 
     public bool _isMoving = false;
     private bool canMove = true; // Controlador de movimiento
@@ -121,7 +121,7 @@ public class PlayerController : MonoBehaviour
     {
         currentHealth -= damage;
         healthBar.SetHealth(currentHealth);
-
+        OnHealthChanged?.Invoke(currentHealth, maxHealth); // Notifica el cambio de salud
         if (currentHealth <= 0)
         {
             currentHealth = 0;
