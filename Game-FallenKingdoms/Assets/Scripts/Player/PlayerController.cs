@@ -119,6 +119,7 @@ public class PlayerController : MonoBehaviour
     //Daño y Estamina
     public void TakeDamage(int damage)
     {
+        FindObjectOfType<AudioManager>().Play("Hurt");
         currentHealth -= damage;
         healthBar.SetHealth(currentHealth);
         OnHealthChanged?.Invoke(currentHealth, maxHealth); // Notifica el cambio de salud
@@ -129,9 +130,10 @@ public class PlayerController : MonoBehaviour
             if (damageable != null)
             {
                 damageable.IsAlive = false; // Cambia el estado a no vivo
+                GameOver();
             }
             animator.SetBool(AnimationStrings.canMove, false);
-            GameOver();
+            
         }
 
         // Actualiza la luz global después de recibir daño
@@ -285,6 +287,7 @@ public class PlayerController : MonoBehaviour
     {
         if (context.started && touchingDirections.IsGrounded && currentStamina >= staminaCostPerAttack)
         {
+            FindObjectOfType<AudioManager>().Play("Sword");
             currentStamina -= staminaCostPerAttack;
             staminaBar.SetStamina(currentStamina);
             animator.SetTrigger(AnimationStrings.attack);
@@ -397,6 +400,8 @@ public class PlayerController : MonoBehaviour
     /// Mensajes
     public void GameOver()
     {
+        FindObjectOfType<AudioManager>().Stop("Hurt");
+        FindObjectOfType<AudioManager>().Play("Death");
         TextGameOver.text = "GAME OVER";
         StartCoroutine(PausarJuego());
     }
@@ -419,7 +424,7 @@ public class PlayerController : MonoBehaviour
     private void Die()
     {
         if (playerCollider.IsTouchingLayers(LayerMask.GetMask("Vacio")))
-        {
+        {      
             canMove = false; // Desactivar el movimiento al tocar el layer "Vacio"
             GameOver();
         }
