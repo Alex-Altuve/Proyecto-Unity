@@ -187,11 +187,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b703d96c8e50fb48bbfc8a4d79e8aa7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damageableHit:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 823627538942839620}
+        m_TargetAssemblyTypeName: EsqueletonEnemy, Assembly-CSharp
+        m_MethodName: OnHit
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   Walkspeed: 3
   malkStopRate: 0.6
   followDistance: 5
   stopDistance: 2
   player: {fileID: 0}
+  maxHealth: 60
+  currentHealth: 0
+  damageable: {fileID: 4919994328658965992}
   attackZone: {fileID: 2545263055274167315}
 --- !u!114 &2435267904906142046
 MonoBehaviour:
@@ -431,3 +449,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackDamage: 10
+  knockback: {x: 0.5, y: 2}

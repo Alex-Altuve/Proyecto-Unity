@@ -6,6 +6,7 @@ public class DamageZone : MonoBehaviour
 {
     public int damageAmount = 20; // Daño que causará al jugador
     private Coroutine damageCoroutine; // Para almacenar la coroutine
+    public Vector2 knockback = new Vector2(5f, 2f);
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -40,7 +41,7 @@ public class DamageZone : MonoBehaviour
     {
         while (true) // Bucle infinito que se detiene cuando se sale de la zona
         {
-            player.TakeDamage(damageAmount); // Aplica el daño
+            player.TakeDamage(damageAmount, knockback); // Aplica el daño
             yield return new WaitForSeconds(1.5f); // Espera 1.5 segundos
         }
     }

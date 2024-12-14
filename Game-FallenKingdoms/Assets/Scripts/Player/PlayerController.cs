@@ -3,12 +3,16 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(Rigidbody2D), typeof(TouchingDirections), typeof(Animator))]
 public class PlayerController : MonoBehaviour
 {
+
+    public UnityEvent<int, Vector2> damageableHit;
+
     public float walkSpeed = 5f;
     public float runSpeed = 8f; // Velocidad al correr
     public float jumpImpulse = 17f;
@@ -55,7 +59,16 @@ public class PlayerController : MonoBehaviour
     //Daño
     [SerializeField]
     private Damageable damageable;
-    
+
+    public bool LockVelocity { get {
+            return animator.GetBool(AnimationStrings.lockVelocity);
+        } 
+        set
+        {
+            animator.SetBool(AnimationStrings.lockVelocity, value);
+        }
+    }
+
     //Mensaje
     public Text TextGameOver;
 
@@ -84,6 +97,16 @@ public class PlayerController : MonoBehaviour
             damageable = GetComponent<Damageable>();
         }
 
+        //StartCoroutine(PrintVelocityCoroutine());
+    }
+
+    IEnumerator PrintVelocityCoroutine()
+    {
+        while (true)
+        {
+            Debug.Log("Rigidbody velocity: " + rb.velocity);
+            yield return new WaitForSeconds(2.0f);
+        }
     }
 
     void Update()
@@ -102,6 +125,9 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
+
+        
+
         // Detener el movimiento si no puede moverse
         if (!canMove || !CanMove)
         {
@@ -109,7 +135,10 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        rb.velocity = new Vector2(moveInput.x * CurrentMoventSpeed, rb.velocity.y);
+        if (!LockVelocity)
+        {
+            rb.velocity = new Vector2(moveInput.x * CurrentMoventSpeed, rb.velocity.y);
+        }
         animator.SetFloat(AnimationStrings.yVelocity, rb.velocity.y);
 
         ReduccionEstamina_Mecanica();
@@ -117,31 +146,38 @@ public class PlayerController : MonoBehaviour
     }
 
     //Daño y Estamina
-    public void TakeDamage(int damage)
-    {
-        FindObjectOfType<AudioManager>().Play("Hurt");
-        currentHealth -= damage;
-        healthBar.SetHealth(currentHealth);
-        OnHealthChanged?.Invoke(currentHealth, maxHealth); // Notifica el cambio de salud
-        if (currentHealth <= 0)
+        public void TakeDamage(int damage, Vector2 knockback)
         {
-            currentHealth = 0;
-
-            if (damageable != null)
+            FindObjectOfType<AudioManager>().Play("Hurt");
+            currentHealth -= damage;
+            healthBar.SetHealth(currentHealth);
+            OnHealthChanged?.Invoke(currentHealth, maxHealth); // Notifica el cambio de salud
+            animator.SetTrigger(AnimationStrings.hitTrigger);
+            damageable.isInvincible = true;
+            damageableHit?.Invoke(damage, knockback);
+            // Imprimir el valor de knockback en la consola
+            //Debug.Log("Knockback - X: " + knockback.x + ", Y: " + knockback.y);
+            // Imprimir la velocidad y posición del Rigidbody2D en la consola
+            //Debug.Log("Rigidbody velocity: " + rb.velocity);
+            if (currentHealth <= 0)
             {
-                damageable.IsAlive = false; // Cambia el estado a no vivo
-                GameOver();
-            }
-            animator.SetBool(AnimationStrings.canMove, false);
-            
-        }
+                currentHealth = 0;
 
-        // Actualiza la luz global después de recibir daño
-        if (luzGlobal != null)
-        {
-            luzGlobal.UpdateGlobalLight(currentHealth, maxHealth); // Llama a la función de luz global
+                if (damageable != null)
+                {
+                    damageable.IsAlive = false; // Cambia el estado a no vivo
+                    GameOver();
+                }
+                animator.SetBool(AnimationStrings.canMove, false);
+            
+            }
+
+            // Actualiza la luz global después de recibir daño
+            if (luzGlobal != null)
+            {
+                luzGlobal.UpdateGlobalLight(currentHealth, maxHealth); // Llama a la función de luz global
+            }
         }
-    }
 
     void GetStamina(int stamina)
     {
@@ -227,6 +263,7 @@ public class PlayerController : MonoBehaviour
     }
 
     public bool _isFacingRight = true;
+    
 
     public bool IsFacingRight
     {
@@ -395,6 +432,13 @@ public class PlayerController : MonoBehaviour
             animator.SetBool(AnimationStrings.isCrouching, false);
 
         }
+    }
+
+    
+    public void OnHit(int damage, Vector2 knockback) 
+    {
+        LockVelocity = true;
+        rb.velocity = new Vector2(knockback.x, rb.velocity.y + knockback.y);
     }
 
     /// Mensajes

@@ -23,4 +23,7 @@ internal class AnimationStrings
     internal static string crouch = "crouch"; 
     internal static string isCrouching = "isCrouching";
     internal static string crouchWalk = "crouchWalk";
+    internal static string isHit = "isHit";
+    internal static string hitTrigger= "hit";
+    internal static string lockVelocity = "lockVelocity";
 }
