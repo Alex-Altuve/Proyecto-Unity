@@ -191,6 +191,7 @@ public class EsqueletonEnemy : MonoBehaviour
 
     public void EnemyDamage(int damage, Vector2 knockback)
     {
+        FindObjectOfType<AudioManager>().Play("EnemigoHurt");
         currentHealth -= damage;
         Debug.Log("Le estoy haciendo daño");
         animator.SetTrigger(AnimationStrings.hitTrigger);
@@ -199,11 +200,13 @@ public class EsqueletonEnemy : MonoBehaviour
         Debug.Log("Knockback - X: " + knockback.x + ", Y: " + knockback.y);
         if (currentHealth <= 0)
         {
+            FindObjectOfType<AudioManager>().Stop("EnemigoHurt");
             Debug.Log("Lo maté");
             currentHealth = 0;
 
             if (damageable != null)
             {
+                FindObjectOfType<AudioManager>().Play("EnemigoDeath");
                 damageable.IsAlive = false; // Cambia el estado a no vivo
             }
             animator.SetBool(AnimationStrings.canMove, false);
