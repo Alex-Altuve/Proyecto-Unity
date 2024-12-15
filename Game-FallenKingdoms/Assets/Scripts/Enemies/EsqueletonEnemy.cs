@@ -20,7 +20,8 @@ public class EsqueletonEnemy : MonoBehaviour
     public float followDistance = 5f; // Distancia a la que comienza a seguir
     public float stopDistance = 2f;    // Distancia mínima para no estar en la misma posición que el jugador
     public Transform player;            // Referencia al jugador
-
+    public GameObject manzanaPrefab; // Prefab de la manzana
+    public float chanceToDrop = 0.4f; // 30% de probabilidad
     // Variables de salud
     public int maxHealth = 60;
     public int currentHealth;
@@ -208,9 +209,14 @@ public class EsqueletonEnemy : MonoBehaviour
             {
                 FindObjectOfType<AudioManager>().Play("EnemigoDeath");
                 damageable.IsAlive = false; // Cambia el estado a no vivo
+                                            // Generar manzana con 30% de probabilidad
+                if (UnityEngine.Random.value < chanceToDrop)
+                {
+                    Instantiate(manzanaPrefab, transform.position, Quaternion.identity);
+                }
             }
             animator.SetBool(AnimationStrings.canMove, false);
-
+            
         }
     }
 

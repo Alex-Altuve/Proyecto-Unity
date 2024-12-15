@@ -172,7 +172,7 @@ GameObject:
   - component: {fileID: 6792012579543259755}
   - component: {fileID: 1966176665575477558}
   m_Layer: 9
-  m_Name: Cofre con stamina
+  m_Name: Cofre_stamina
   m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -187,7 +187,7 @@ Transform:
   m_GameObject: {fileID: 7697441115648580753}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -193.13681, y: -6.1737843, z: 0}
+  m_LocalPosition: {x: -162.81616, y: -6.21, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -457,8 +457,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0.022735596, y: 0.45, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 1.2, y: 1.2, z: 1.2}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 8351930262803011912}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -606,3 +606,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   staminaIncrease: 20
   luz: {fileID: 8503291880325187492}
+  staminaBar: {fileID: 4850792311423536900, guid: fccd71227c2673f47a3f3185ccff2428, type: 3}
