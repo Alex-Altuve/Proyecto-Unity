@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(Rigidbody2D), typeof(TouchingDirections))]
 public class BossController : MonoBehaviour
@@ -233,6 +234,8 @@ public class BossController : MonoBehaviour
             if (damageable != null)
             {
                 Debug.Log("entré aquí");
+                FindObjectOfType<AudioManager>().Stop("Theme");
+                SceneManager.LoadScene("WinChangeWorld");
                 damageable.IsAlive = false;
             }
             animator.SetBool(AnimationStrings.canMove, false);

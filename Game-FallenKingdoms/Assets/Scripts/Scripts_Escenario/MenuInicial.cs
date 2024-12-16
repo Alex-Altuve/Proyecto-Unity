@@ -22,8 +22,5 @@ public class MenuInicial : MonoBehaviour
             Application.Quit();
         #endif
     }
-    //public void ModoArcade()
-    //{
-    //    SceneManager.LoadScene("Mundo1");
-    //}
+    
 }
