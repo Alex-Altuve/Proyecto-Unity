@@ -8,6 +8,7 @@ using UnityEngine.SceneManagement;
 [RequireComponent(typeof(Rigidbody2D), typeof(TouchingDirections))]
 public class BossController : MonoBehaviour
 {
+    private bool isBattleMusicPlaying = false;
 
     public UnityEvent<int, Vector2> damageableHit;
 
@@ -212,14 +213,21 @@ public class BossController : MonoBehaviour
 
     public void BossDamage(int damage, Vector2 knockback)
     {
+
         if (bossHealthBar != null)
         {
             bossHealthBar.gameObject.SetActive(true); // Activar la barra de salud
         }
 
+        if (!isBattleMusicPlaying)
+        {
+            FindObjectOfType<AudioManager>().Stop("Theme");
+            FindObjectOfType<AudioManager>().Play("Batalla");
+            isBattleMusicPlaying = true; // Marcar que la música ya está sonando
+        }
+
         currentHealth -= damage;
         bossHealthBar.SetHealth(currentHealth);
-        Debug.Log("Le estoy haciendo daño");
         animator.SetTrigger(AnimationStrings.hitTrigger);
         damageableHit?.Invoke(damage, knockback);
 
@@ -239,6 +247,7 @@ public class BossController : MonoBehaviour
             if (damageable != null)
             {
                 Debug.Log("entré aquí");
+                FindObjectOfType<AudioManager>().Stop("Batalla");
                 FindObjectOfType<AudioManager>().Stop("Theme");
                 SceneManager.LoadScene("WinChangeWorld");
                 damageable.IsAlive = false;
