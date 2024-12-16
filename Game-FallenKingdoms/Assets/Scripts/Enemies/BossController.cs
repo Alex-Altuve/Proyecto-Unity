@@ -155,8 +155,8 @@ public class BossController : MonoBehaviour
         {
             return;
         }
+        WalkDirection = (WalkDirection == WalkableDirection.Right) ? WalkableDirection.Left : WalkableDirection.Right;
 
-        
     }
 
 
