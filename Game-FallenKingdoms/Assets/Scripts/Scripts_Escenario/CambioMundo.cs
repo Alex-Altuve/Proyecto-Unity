@@ -21,6 +21,10 @@ public class CambioMundo : MonoBehaviour
     {
         SceneManager.LoadScene("Mundo2");
     }
+    public void TryAgain()
+    {
+        SceneManager.LoadScene("Mundo1");
+    }
 
     public void Salir()
     {

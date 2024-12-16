@@ -51,7 +51,7 @@ public class PlayerController : MonoBehaviour
     public int staminaCostPerAttack = 10;
     public int staminaCostPerRun = 5;
     private float staminaReductionTimer = 0.5f;
-    public float staminaRegenRate = 5f;
+    public float staminaRegenRate = 15f;
    
     // Ataque
     private float lastAttackTime;
