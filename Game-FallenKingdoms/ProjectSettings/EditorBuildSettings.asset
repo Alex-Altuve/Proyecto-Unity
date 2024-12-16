@@ -5,20 +5,23 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
+  - enabled: 0
+    path: Assets/Scenes/QuitScene.unity
+    guid: 87e100867e1eaa647826366ce8281d15
   - enabled: 1
     path: Assets/Scenes/MenuPrincipal.unity
     guid: e96a52f4498bb24448e104117fec1038
   - enabled: 1
     path: Assets/Scenes/Mundo1.unity
     guid: 2cda990e2423bbf4892e6590ba056729
-  - enabled: 0
-    path: Assets/Scenes/QuitScene.unity
-    guid: 87e100867e1eaa647826366ce8281d15
   - enabled: 1
     path: Assets/Scenes/Mundo2.unity
     guid: 208a5220646e55f42bf083db6aacd486
   - enabled: 1
     path: Assets/Scenes/WinChangeWorld.unity
     guid: db3f3cfc2b4db7f47a55f7f097df637b
+  - enabled: 1
+    path: Assets/Scenes/Instrucciones.unity
+    guid: be87f5e6753643646b2bf660091ff009
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: ccb7bca5f8a1c584483927bdc207a2c7, type: 3}

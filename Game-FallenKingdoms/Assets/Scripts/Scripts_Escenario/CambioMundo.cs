@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class CambioMundo : MonoBehaviour
 {
+    public static string lastScene;
     // Start is called before the first frame update
     void Start()
     {
@@ -16,16 +17,10 @@ public class CambioMundo : MonoBehaviour
     {
         
     }
-
-    public void MundoNuevo()
+    public void ModoHistoria()
     {
-        SceneManager.LoadScene("Mundo2");
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
-    public void TryAgain()
-    {
-        SceneManager.LoadScene("Mundo1");
-    }
-
     public void Salir()
     {
         /// Estos se pondra cuando se cree el build
@@ -38,6 +33,25 @@ public class CambioMundo : MonoBehaviour
         #else
                     Application.Quit();
         #endif
+    }
+    public void MundoNuevo()
+    {
+        SceneManager.LoadScene("Mundo2");
+    }
+    public void TryAgain()
+    {
+        SceneManager.LoadScene("Mundo1");
+    }
+
+    public void IntruccionesVolver()
+    {
+        SceneManager.LoadScene(lastScene);
+
+    }
+    public void IrVentana()
+    {
+        lastScene = SceneManager.GetActiveScene().name;
+        SceneManager.LoadScene("Instrucciones");
     }
 
 }

@@ -22,5 +22,8 @@ public class MenuInicial : MonoBehaviour
             Application.Quit();
         #endif
     }
-    
+    public void IntruccionesIr()
+    {
+        SceneManager.LoadScene("Instrucciones");
+    }
 }
