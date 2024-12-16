@@ -39,10 +39,7 @@ public class Attack : MonoBehaviour
         if (playerController != null)
         {
 
-            if (bossHealthBar != null)
-            {
-                bossHealthBar.gameObject.SetActive(true);
-            }
+            
 
             playerController.TakeDamage(attackDamage, knockback);
         }

@@ -191,6 +191,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackDamage: 10
   knockback: {x: 0.5, y: 2}
+  bossHealthBar: {fileID: 0}
 --- !u!1 &8305897655558122873
 GameObject:
   m_ObjectHideFlags: 0
@@ -399,7 +400,7 @@ MonoBehaviour:
   stopDistance: 2
   player: {fileID: 5499922457080531022, guid: 2b0c3c463e54c1842b572e1f626d3037, type: 3}
   manzanaPrefab: {fileID: 3117510570419129870, guid: 8c2bf0a2103505147ac3bc060eeb3ed2, type: 3}
-  chanceToDrop: 0.4
+  chanceToDrop: 0.5
   maxHealth: 60
   currentHealth: 0
   damageable: {fileID: 9009794709791702611}

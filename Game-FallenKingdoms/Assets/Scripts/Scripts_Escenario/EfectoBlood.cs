@@ -14,7 +14,7 @@ public class EfectoBlood : MonoBehaviour
         }
     }
 
-    private void UpdateBloodEffect(int currentHealth, int maxHealth)
+    public void UpdateBloodEffect(int currentHealth, int maxHealth)
     {
         float alpha = 1f - (float)currentHealth / maxHealth; // Calcula el alpha basado en la salud
         Color newColor = bloodImage.color;

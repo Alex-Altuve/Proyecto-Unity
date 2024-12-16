@@ -212,6 +212,11 @@ public class BossController : MonoBehaviour
 
     public void BossDamage(int damage, Vector2 knockback)
     {
+        if (bossHealthBar != null)
+        {
+            bossHealthBar.gameObject.SetActive(true); // Activar la barra de salud
+        }
+
         currentHealth -= damage;
         bossHealthBar.SetHealth(currentHealth);
         Debug.Log("Le estoy haciendo daño");
@@ -227,7 +232,7 @@ public class BossController : MonoBehaviour
         }
 
         if (currentHealth <= 0)
-        { 
+        {
             Debug.Log("Maté al Boss");
             currentHealth = 0;
 
@@ -239,7 +244,6 @@ public class BossController : MonoBehaviour
                 damageable.IsAlive = false;
             }
             animator.SetBool(AnimationStrings.canMove, false);
-
         }
     }
 

@@ -39,7 +39,7 @@ public class BottlePickup : MonoBehaviour
         if (playerController != null)
         {
             playerController.maxStamina += staminaIncrease; // Aumentar el máximo de estamina
-            playerController.currentStamina = staminaIncrease; // Restablecer la estamina actual
+            playerController.currentStamina += staminaIncrease; // Restablecer la estamina actual
             playerController.staminaBar.SetStamina(playerController.currentStamina);
             // Destruir la luz, si está asignada
             if (luz != null)
