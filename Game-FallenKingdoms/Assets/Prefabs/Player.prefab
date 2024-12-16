@@ -4987,6 +4987,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackDamage: 15
   knockback: {x: 0.5, y: 1}
+  bossHealthBar: {fileID: 0}
 --- !u!60 &3115787499003109708
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -5395,7 +5396,7 @@ MonoBehaviour:
   staminaCostPerSlide: 10
   staminaCostPerAttack: 10
   staminaCostPerRun: 5
-  staminaRegenRate: 5
+  staminaRegenRate: 15
   damageable: {fileID: 0}
   TextGameOver: {fileID: 0}
   _isFacingRight: 1

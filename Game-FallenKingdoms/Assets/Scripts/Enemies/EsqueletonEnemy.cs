@@ -187,7 +187,7 @@ public class EsqueletonEnemy : MonoBehaviour
     void Start()
     {
         currentHealth = maxHealth;
-        StartCoroutine(PrintVelocityCoroutine());
+        //StartCoroutine(PrintVelocityCoroutine());
     }
 
     public void EnemyDamage(int damage, Vector2 knockback)

@@ -7,6 +7,8 @@ public class Attack : MonoBehaviour
     public int attackDamage = 10;
     public Vector2 knockback = Vector2.zero;
 
+    public HealthBar bossHealthBar;
+
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -18,6 +20,10 @@ public class Attack : MonoBehaviour
 
         // Intentamos obtener el componente EsquletonEnemy del objeto con el que colisionamos
         EsqueletonEnemy esqueletonEnemy = collision.GetComponent<EsqueletonEnemy>();
+
+        // Intentamos obtener el componente BossController del objeto con el que colisionamos
+        BossController bossController = collision.GetComponent<BossController>();
+
 
         /*
         if (damageable != null)
@@ -32,6 +38,12 @@ public class Attack : MonoBehaviour
         // Si el objeto colisionado es el jugador, aplicamos el daño a su salud
         if (playerController != null)
         {
+
+            if (bossHealthBar != null)
+            {
+                bossHealthBar.gameObject.SetActive(true);
+            }
+
             playerController.TakeDamage(attackDamage, knockback);
         }
 
@@ -39,6 +51,14 @@ public class Attack : MonoBehaviour
         if (esqueletonEnemy != null)
         {
             esqueletonEnemy.EnemyDamage(attackDamage, knockback);
+        }
+
+        // Si el objeto colisionado es el boss, aplicamos el daño a su salud
+        if (bossController != null)
+        {
+            //damageable.IsAlive = false;
+            Debug.Log("Le pegue al boss");
+            bossController.BossDamage(attackDamage, knockback);
         }
     }
 }
