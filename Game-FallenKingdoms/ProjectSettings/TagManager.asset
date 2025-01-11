@@ -23,7 +23,7 @@ TagManager:
   - PlayerHitBox
   - EnemyHitBox
   - decoracion
-  - 
+  - puyas
   - 
   - 
   - 
@@ -63,12 +63,12 @@ TagManager:
   - name: Ground
     uniqueID: 2161751393
     locked: 0
-  - name: Fondo_vacio
-    uniqueID: 1681134043
-    locked: 0
   - name: Plataformas
     uniqueID: 3197208293
     locked: 0
   - name: Decoracion
     uniqueID: 1367046437
+    locked: 0
+  - name: Fondo_vacio
+    uniqueID: 1681134043
     locked: 0
