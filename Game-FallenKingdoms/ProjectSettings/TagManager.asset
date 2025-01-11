@@ -7,6 +7,7 @@ TagManager:
   - Enemy
   - Item
   - Plataforma
+  - decoracion
   layers:
   - Default
   - TransparentFX
@@ -21,7 +22,7 @@ TagManager:
   - Limites
   - PlayerHitBox
   - EnemyHitBox
-  - 
+  - decoracion
   - 
   - 
   - 
@@ -67,4 +68,7 @@ TagManager:
     locked: 0
   - name: Plataformas
     uniqueID: 3197208293
+    locked: 0
+  - name: Decoracion
+    uniqueID: 1367046437
     locked: 0
