@@ -1,10 +1,12 @@
 ﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(Rigidbody2D), typeof(Sensor_Bandit))]
 public class BandidoEnemy_BOSS : MonoBehaviour
 {
+    private bool isBattleMusicPlaying = false;
     private Rigidbody2D rb;
     private Sensor_Bandit groundSensor;
     private Animator animator;
@@ -130,6 +132,13 @@ public class BandidoEnemy_BOSS : MonoBehaviour
     {
         if (damageable != null && damageable.IsAlive)
         {
+            if (!isBattleMusicPlaying)
+            {
+                FindObjectOfType<AudioManager>().Stop("Theme");
+                FindObjectOfType<AudioManager>().Play("Batalla");
+                isBattleMusicPlaying = true; // Marcar que la música ya está sonando
+            }
+
             FindObjectOfType<AudioManager>().Play("EnemigoHurt");
             currentHealth -= damage;
             bossHealthBar.SetHealth(currentHealth);
@@ -145,6 +154,11 @@ public class BandidoEnemy_BOSS : MonoBehaviour
                 animator.SetTrigger("Death");
                 rb.velocity = Vector2.zero; // Detener movimiento al morir
                 // Aquí puedes añadir lógica adicional para manejar la muerte
+
+                Debug.Log("entré aquí para cambiar a ventana");
+                FindObjectOfType<AudioManager>().Stop("Batalla");
+                FindObjectOfType<AudioManager>().Stop("Theme");
+                SceneManager.LoadScene("WinMessage");
             }
         }
     }
