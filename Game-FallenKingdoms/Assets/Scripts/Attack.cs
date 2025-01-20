@@ -54,5 +54,11 @@ public class Attack : MonoBehaviour
             Debug.Log("Le pegué al bandido boss");
             bandidoBoss.OnHit(attackDamage, knockback);
         }
+
+        if (bossController != null)
+        {
+            Debug.Log("Le pegué al boss mundo 1");
+            bossController.BossDamage(attackDamage, knockback);      
+        }
     }
 }
