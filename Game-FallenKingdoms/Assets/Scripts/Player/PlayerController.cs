@@ -448,7 +448,33 @@ public class PlayerController : MonoBehaviour
             capsuleCollider.offset = originalCenter; // Restaurar el centro original
         }
     }
+    public void TakeDamage(int damage)
+    {
+        FindObjectOfType<AudioManager>().Play("Hurt");
+        currentHealth -= damage;
+        healthBar.SetHealth(currentHealth);
+        OnHealthChanged?.Invoke(currentHealth, maxHealth); // Notifica el cambio de salud
+        animator.SetTrigger(AnimationStrings.hitTrigger);
+//damageable.isInvincible = true;
 
+        if (currentHealth <= 0)
+        {
+            currentHealth = 0;
+
+            if (damageable != null)
+            {
+                damageable.IsAlive = false; // Cambia el estado a no vivo
+                GameOver();
+            }
+            animator.SetBool(AnimationStrings.canMove, false);
+        }
+
+        // Actualiza la luz global después de recibir daño
+        if (luzGlobal != null)
+        {
+            luzGlobal.UpdateGlobalLight(currentHealth, maxHealth); // Llama a la función de luz global
+        }
+    }
 
     public void OnHit(int damage, Vector2 knockback) 
     {
