@@ -420,13 +420,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82590bdca3a621545a1d6acf524b928e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bossHealthBar: {fileID: 0}
+  bossHealthBar: {fileID: 1505240453471566928, guid: cb76d7c914228124eb7c3d168cd064bb, type: 3}
   damageableHit:
     m_PersistentCalls:
       m_Calls: []
   walkSpeed: 9
   jumpForce: 7.5
-  player: {fileID: 0}
+  player: {fileID: 5499922457080531022, guid: 2b0c3c463e54c1842b572e1f626d3037, type: 3}
   followDistance: 6
   stopDistance: 3
   attackDistance: 3
