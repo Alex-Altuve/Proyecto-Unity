@@ -17,7 +17,9 @@ public class PlayerController : MonoBehaviour
     public float runSpeed = 8f; // Velocidad al correr
     public float jumpImpulse = 17f;
     Vector2 moveInput;
-    
+    private CapsuleCollider2D capsuleCollider; // Referencia al CapsuleCollider2D
+    private float originalHeight; // Altura original del collider
+    private Vector2 originalCenter; // Centro original del collider
     Collider2D playerCollider;
     Rigidbody2D playerRigidBody;
     Rigidbody2D rb;
@@ -77,6 +79,13 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         touchingDirections = GetComponent<TouchingDirections>();
+        capsuleCollider = GetComponent<CapsuleCollider2D>();
+        if (capsuleCollider == null)
+        {
+            Debug.LogError("CapsuleCollider2D no encontrado en el GameObject.");
+        }
+        originalHeight = capsuleCollider.size.y; // Guarda la altura original
+        originalCenter = capsuleCollider.offset; // Guarda el centro original
 
     }
     void Start()
@@ -424,17 +433,49 @@ public class PlayerController : MonoBehaviour
             {
                 animator.SetTrigger(AnimationStrings.crouchWalk);
             }
-            
+
+            // Modificar la altura y el centro del collider al agacharse
+            capsuleCollider.size = new Vector2(capsuleCollider.size.x, 0.8f);
+            capsuleCollider.offset = new Vector2(originalCenter.x, originalCenter.y - (originalHeight - 0.8f) / 2); // Ajustar el centro
         }
         else if (context.canceled)
         {
             // Si el contexto se cancela, restablece el estado
             animator.SetBool(AnimationStrings.isCrouching, false);
 
+            // Restaurar la altura y el centro original del collider
+            capsuleCollider.size = new Vector2(capsuleCollider.size.x, originalHeight);
+            capsuleCollider.offset = originalCenter; // Restaurar el centro original
+        }
+    }
+    public void TakeDamage(int damage)
+    {
+        FindObjectOfType<AudioManager>().Play("Hurt");
+        currentHealth -= damage;
+        healthBar.SetHealth(currentHealth);
+        OnHealthChanged?.Invoke(currentHealth, maxHealth); // Notifica el cambio de salud
+        animator.SetTrigger(AnimationStrings.hitTrigger);
+//damageable.isInvincible = true;
+
+        if (currentHealth <= 0)
+        {
+            currentHealth = 0;
+
+            if (damageable != null)
+            {
+                damageable.IsAlive = false; // Cambia el estado a no vivo
+                GameOver();
+            }
+            animator.SetBool(AnimationStrings.canMove, false);
+        }
+
+        // Actualiza la luz global después de recibir daño
+        if (luzGlobal != null)
+        {
+            luzGlobal.UpdateGlobalLight(currentHealth, maxHealth); // Llama a la función de luz global
         }
     }
 
-    
     public void OnHit(int damage, Vector2 knockback) 
     {
         LockVelocity = true;

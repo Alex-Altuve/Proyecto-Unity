@@ -431,8 +431,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.0000076294, y: -13.3}
-  m_SizeDelta: {x: 735.1098, y: 205.3288}
+  m_AnchoredPosition: {x: 6.9045, y: -21.1729}
+  m_SizeDelta: {x: 766.1123, y: 251.9687}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &669895826
 MonoBehaviour:
@@ -456,7 +456,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: 570b6aa6c94a4734db928b2a959bf72f, type: 3}
-    m_FontSize: 30
+    m_FontSize: 27
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
@@ -472,8 +472,8 @@ MonoBehaviour:
     la mec\xE1nica \r\n\"v\" deslizarse - debes estar corriendo para que se active
     la mec\xE1nica \r\n\"k\" atacar\r.\n\"down arrow\" o \"s\" - agacharte y  si
     lo mantienes presionado y das a \"right arrow\", \"left arrow\"o \"s\", caminas
-    agachado\r.\n\"f\" abrir y agarrar elemento del cofre\r u otro objeto.\n\"shift\"
-    aumenta la velocidad mientras corres.\n\n\n\r\n\n"
+    agachado\r.\n\"f\" abrir y agarrar elemento del cofre\r u otro objeto. Tambien
+    sirve para saltar en trampolin\n\"shift\" aumenta la velocidad mientras corres.\n\n\n\r\n\n"
 --- !u!222 &669895827
 CanvasRenderer:
   m_ObjectHideFlags: 0
