@@ -11,3 +11,9 @@ https://docs.google.com/document/d/1-D2gANfBs3JnaL5GtTc4ysqHaeS6V8oR/edit?usp=sh
 1. Abrir primeramente el juego en unity
 2. Ir a la parte usperior de la pantalla en configuracion y seleccionar build and run o solo build, sin tocar ninguna otra configuracion.
 3. Esperar que cree los archivo y jugar dandole al .exe que se ha creado
+
+## Autores
+
+- ### [@Alex Altuve](https://github.com/Alex-Altuve)  [![linkedin](https://img.shields.io/badge/linkedin-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/alex-altuve-delgado-b1a212288/)
+- ### [@Jhonny Sojo](https://github.com/Jhonnysour) [![linkedin](https://img.shields.io/badge/linkedin-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/jhonny-sojo-4b76692a1/)
+- ### [@Santiago Peña](https://github.com/Handleinchain) 
